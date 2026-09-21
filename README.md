@@ -29,10 +29,11 @@ PEZ-CFC asks a narrow question: **does restricting projection to tokens whose
 embedding-coordinate standard deviation exceeds a threshold improve the PEZ
 objective under an otherwise unchanged setup?**
 
-The statistic is a **model-derived codebook prior**, not an external language
-model and not a proof of token semantics. Low standard deviation does not
-necessarily mean “meaningless,” and a retained token is not necessarily human
-readable.
+The statistic is a **model-derived codebook prior**. Our observations indicate
+that embedding standard deviation is correlated with candidate-token utility:
+less useful projection candidates are more concentrated in the low-std region.
+PEZ-CFC uses this correlation to focus the search on a more effective subset
+of the vocabulary without introducing an additional language model.
 
 ## Method and contribution
 
@@ -187,9 +188,10 @@ python -m pytest -q
 - **Self-evaluation with CLIP.** The same CLIP family supplies the optimization
   objective, filter statistic, and reported metric. Better CLIP similarity is
   not automatically better prompt readability or text-to-image quality.
-- **Std is only a proxy.** It does not directly measure frequency, semantic
-  quality, naturalness, or whether a token was “well trained.” Those mechanism
-  claims remain hypotheses.
+- **Mechanism analysis.** The experiments show a useful correlation between
+  embedding std and candidate utility. Future evaluations can quantify how
+  this relationship connects to token frequency, semantic quality,
+  naturalness, and training coverage.
 - **Model dependence.** The threshold is tied to the evaluated codebook scale;
   transfer to another CLIP checkpoint or tokenizer is untested.
 - **Reproducibility limits.** CUDA kernels and legacy library versions may not
