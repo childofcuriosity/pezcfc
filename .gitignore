@@ -1,0 +1,20 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.idea/
+.vscode/
+.DS_Store
+
+# Model/download caches and generated experiment outputs
+.cache/
+logs_*/
+*.log
+*.out
+*.pid
+
+# Generated figures/tables (the reviewed result artifacts are force-tracked)
+results/generated/
+

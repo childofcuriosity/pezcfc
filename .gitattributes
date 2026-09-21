@@ -1,0 +1,11 @@
+* text=auto eol=lf
+
+*.gz binary
+*.npy binary
+*.png binary
+
+# Preserve audited upstream snapshots byte-for-byte.
+open_clip/** -whitespace
+optim_utils.py -whitespace
+reference/** -whitespace
+

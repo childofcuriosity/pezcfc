@@ -1,0 +1,59 @@
+{
+  "experiment_date": "2026-05-25",
+  "status": "exploratory",
+  "source_worktree_commit": "569d4fe17278a99a103445c55f536c1c0c08d1cc",
+  "experiment_snapshot_sha256": "f4f0bf9db1f92d1aee0287226cc0eb70859e32428985e47977606ac89394beb6",
+  "method": "PEZ with token-codebook candidates filtered by per-embedding coordinate standard deviation",
+  "model": {
+    "architecture": "ViT-H-14",
+    "pretraining_tag": "laion2b_s32b_b79k"
+  },
+  "optimization": {
+    "iterations": 3000,
+    "prompt_length": 16,
+    "learning_rate": 0.1,
+    "weight_decay": 0.1,
+    "optimizer": "AdamW",
+    "prompt_batch_size": 1,
+    "image_batch_size": 1
+  },
+  "evaluation": {
+    "metric": "best CLIP cosine similarity reached during optimization",
+    "images": 8,
+    "image_distribution": "author-collected convenience sample; not redistributed",
+    "seeds": [0, 1, 2],
+    "thresholds": [
+      0.0,
+      0.001,
+      0.002,
+      0.003,
+      0.004,
+      0.005,
+      0.006,
+      0.007,
+      0.008,
+      0.009,
+      0.01,
+      0.011,
+      0.012
+    ],
+    "runs": 312,
+    "aggregation": "For each threshold and seed, average over 8 images. Report the mean and sample standard deviation of the 3 seed-level means.",
+    "threshold_selection": "Best threshold selected on the same 8-image sweep; no held-out validation set."
+  },
+  "environment": {
+    "python": "3.8.10",
+    "pytorch": "1.13.0",
+    "torchvision": "0.14.0",
+    "cuda_runtime_bundled_with_pytorch": "11.7",
+    "gpu": "NVIDIA GeForce RTX 2080 Ti (11 GiB)",
+    "transformers": "4.23.1",
+    "numpy": "1.24.4",
+    "sentence_transformers_in_experiment_snapshot": "2.2.2"
+  },
+  "publication_validation": {
+    "date": "2026-09-21",
+    "gpu_smoke_test": "passed: model load plus 2 filtered optimization steps",
+    "unit_tests": "6 passed before the final documentation-only update"
+  }
+}
