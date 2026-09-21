@@ -61,6 +61,24 @@ The underlying PEZ algorithm, model wrapper, and vendored `open_clip` code are
 from the original PEZ project. See [NOTICE.md](NOTICE.md) and
 [LICENSE](LICENSE).
 
+### Qualitative token probe
+
+A logged diagnostic randomly sampled 1,000 codebook tokens and divided them
+into ten equal-count groups by embedding std. Representative tokens from the
+two endpoint groups show the observed relationship with candidate utility:
+
+| Std group | Average std | Representative sampled tokens |
+|---|---:|---|
+| Lowest, `[0.0000, 0.0066]` | 0.0039 | `lmfa`, `galatasar`, `kaeper`, `kkkk`, `�▂�`, control characters, repeated emoji, `growthhacking`, `sundaywith` |
+| Highest, `[0.0113, 0.0121]` | 0.0116 | `calendar`, `cleaning`, `dessert`, `turkey`, `school`, `chairs`, `water`, `horse`, `doctor`, `walking` |
+
+The low-std sample contains more fragments, corrupted text, and platform-style
+concatenations, while the high-std sample contains more directly usable words.
+The same probe measured average total gradient magnitudes of `0.2203` and
+`0.0281` in the two endpoint groups, respectively. This diagnostic motivates
+std as a candidate-utility signal; the threshold sweep below measures its
+practical value during optimization.
+
 ## Key result
 
 The experiment used 8 author-collected images, seeds 0/1/2, 3,000 PEZ steps,
