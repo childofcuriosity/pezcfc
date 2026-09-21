@@ -29,11 +29,12 @@ PEZ-CFC asks a narrow question: **does restricting projection to tokens whose
 embedding-coordinate standard deviation exceeds a threshold improve the PEZ
 objective under an otherwise unchanged setup?**
 
-The statistic is a **model-derived codebook prior**. Our observations indicate
-that embedding standard deviation is correlated with candidate-token utility:
-less useful projection candidates are more concentrated in the low-std region.
-PEZ-CFC uses this correlation to focus the search on a more effective subset
-of the vocabulary without introducing an additional language model.
+The statistic is a **model-derived codebook prior**. Our token-bin observations
+show that embedding standard deviation is correlated with token semantic
+usability: less semantically usable projection candidates are more concentrated
+in the low-std region. PEZ-CFC uses this correlation to focus the search on a
+more effective subset of the vocabulary without introducing an additional
+language model.
 
 ## Method and contribution
 
@@ -65,7 +66,7 @@ from the original PEZ project. See [NOTICE.md](NOTICE.md) and
 
 A logged diagnostic randomly sampled 1,000 codebook tokens and divided them
 into ten equal-count groups by embedding std. Representative tokens from the
-two endpoint groups show the observed relationship with candidate utility:
+two endpoint groups show the observed relationship with semantic usability:
 
 | Std group | Average std | Representative sampled tokens |
 |---|---:|---|
@@ -76,8 +77,8 @@ The low-std sample contains more fragments, corrupted text, and platform-style
 concatenations, while the high-std sample contains more directly usable words.
 The same probe measured average total gradient magnitudes of `0.2203` and
 `0.0281` in the two endpoint groups, respectively. This diagnostic motivates
-std as a candidate-utility signal; the threshold sweep below measures its
-practical value during optimization.
+std as a semantic-usability prior; the threshold sweep below measures its
+practical value as a candidate-filtering signal during optimization.
 
 ## Key result
 
@@ -206,10 +207,10 @@ python -m pytest -q
 - **Self-evaluation with CLIP.** The same CLIP family supplies the optimization
   objective, filter statistic, and reported metric. Better CLIP similarity is
   not automatically better prompt readability or text-to-image quality.
-- **Mechanism analysis.** The experiments show a useful correlation between
-  embedding std and candidate utility. Future evaluations can quantify how
-  this relationship connects to token frequency, semantic quality,
-  naturalness, and training coverage.
+- **Mechanism analysis.** The token-bin observations show a correlation between
+  embedding std and semantic usability. Future evaluations can quantify how
+  this relationship connects to token frequency, naturalness, and training
+  coverage.
 - **Model dependence.** The threshold is tied to the evaluated codebook scale;
   transfer to another CLIP checkpoint or tokenizer is untested.
 - **Reproducibility limits.** CUDA kernels and legacy library versions may not
